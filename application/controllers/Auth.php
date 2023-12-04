@@ -7,13 +7,14 @@ class Auth extends CI_Controller {
         $this->load->model('user_model');
         // $this->load->config('email');
         $this->load->library('encryption');
-        if($this->session->userdata('status') == 'login'){
-			redirect('dashboard');
-		}
     }
 
     public function login(){
-		$this->load->view('auth/login');
+        if($this->session->userdata('status') == 'login'){
+			redirect('dashboard');
+		} else {
+            $this->load->view('auth/login');
+        }
     }
 
     public function dologin(){
@@ -38,7 +39,11 @@ class Auth extends CI_Controller {
     }
 
     public function register(){
-        $this->load->view('auth/register');
+        if($this->session->userdata('status') == 'login'){
+			redirect('dashboard');
+		} else {
+            $this->load->view('auth/register');
+        }
     }
 
     public function doregister(){
