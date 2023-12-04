@@ -5,7 +5,36 @@ class Auth extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('user_model');
-        $this->load->config('email');
+        // $this->load->config('email');
+        $this->load->library('encryption');
+        if($this->session->userdata('status') == 'login'){
+			redirect('dashboard');
+		}
+    }
+
+    public function login(){
+		$this->load->view('auth/login');
+    }
+
+    public function dologin(){
+        $email = $this->input->post('email');
+        $password = $this->input->post('password');
+        $payload = array(
+            'email' => $email,
+        );
+        $find = $this->user_model->find($payload)->row();
+        if($this->encryption->decrypt($find->password) == $password){
+            $data_session = array(
+                'id' => $find->id,
+				'name' => $find->name,
+				'email' => $find->email,
+				'status' => "login"
+            );
+			$this->session->set_userdata($data_session);
+            return redirect('dashboard');
+        } else {
+            return redirect('login');
+        }
     }
 
     public function register(){
@@ -20,7 +49,7 @@ class Auth extends CI_Controller {
         $payload = array(
             'name' => $name,
             'email' => $email,
-            'password' => $password,
+            'password'  => $this->encryption->encrypt($password),
             'level_user' => '0',
         );
         
@@ -30,10 +59,10 @@ class Auth extends CI_Controller {
                         <p>Mohon untuk aktivasi akun Anda dengan klik tombol berikut</p>
                         <button>Aktivasi</button>
                     </html>';
-        $insert = $this->user_model->insert($payload);        
+        $insert = $this->user_model->insert($payload);
         if(isset($insert)){
-            $this->send_email($email, $subject, $message);
-            return redirect('dashboard');
+            // $this->send_email($email, $subject, $message);
+            return redirect('login');
         } else {
             return redirect('register');
         }
@@ -54,4 +83,9 @@ class Auth extends CI_Controller {
             return show_error($this->email->print_debugger());
         }
     }
+
+    function logout(){
+		$this->session->sess_destroy();
+		redirect('login');
+	}
 }

@@ -53,7 +53,10 @@ $route['default_controller'] = 'Dashboard/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+$route['login'] = 'Auth/login';
+$route['dologin'] = 'Auth/dologin';
 $route['register'] = 'Auth/register';
 $route['doregister'] = 'Auth/doregister';
+$route['logout'] = 'Auth/logout';
 
 $route['dashboard'] = 'Dashboard/index';
