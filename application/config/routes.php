@@ -60,3 +60,5 @@ $route['doregister'] = 'Auth/doregister';
 $route['logout'] = 'Auth/logout';
 
 $route['dashboard'] = 'Dashboard/index';
+$route['pengguna'] = 'Pengguna/index';
+$route['pengguna/export'] = 'Pengguna/export_pdf';
