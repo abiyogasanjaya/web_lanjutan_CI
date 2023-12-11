@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title><?= $title ?></title>
+    </head>
     <style>
         table.minimalistBlack {
             border: 3px solid #000000;
@@ -36,8 +39,16 @@
         table.minimalistBlack tfoot td {
             font-size: 14px;
         }
+
+        img {
+            /* border: 1px solid #ddd; Gray border */
+            border-radius: 4px;  /* Rounded border */
+            padding: 5px; /* Some padding */
+            width: 100px; /* Set a small width */
+        }
     </style>
     <body>
+        <img class="img-thumbnail" src="<?= base_url('assets/backend/img/apple-touch-icon.png') ?>" alt="" width="100" height="100">
         <h1 style="text-align: center;"><?= $title ?></h1>
         <table class="minimalistBlack">
             <thead>

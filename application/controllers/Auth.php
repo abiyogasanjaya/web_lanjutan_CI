@@ -5,7 +5,7 @@ class Auth extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('user_model');
-        // $this->load->config('email');
+        $this->load->config('email');
         $this->load->library('encryption');
     }
 
@@ -66,7 +66,7 @@ class Auth extends CI_Controller {
                     </html>';
         $insert = $this->user_model->insert($payload);
         if(isset($insert)){
-            // $this->send_email($email, $subject, $message);
+            $this->send_email($email, $subject, $message);
             return redirect('login');
         } else {
             return redirect('register');
@@ -77,7 +77,7 @@ class Auth extends CI_Controller {
         $from = $this->config->item('smtp_user');
 
         $this->email->set_newline("\r\n");
-        $this->email->from($from);
+        $this->email->from($from, 'Pengirim');
         $this->email->to($to);
         $this->email->subject($subject);
         $this->email->message($message);
